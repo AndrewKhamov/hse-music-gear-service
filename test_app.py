@@ -77,3 +77,28 @@ def test_invalid_date():
         'description': 'Сдать домашнее задание',
     })
     assert response.status_code == 422
+
+
+# ____________________
+# Дополнительные тесты 
+# 
+def test_root():
+    response = client.get('/')
+    assert response.status_code == 200
+    assert response.json() == {
+        'message': 'Трекер учебных дедлайнов',
+        'docs': '/docs',
+    }
+
+
+def test_version():
+    response = client.get('/version')
+    assert response.status_code == 200
+    assert response.json() == {'version': '1.0.0'}
+
+
+def test_info():
+    response = client.get('/info')
+    assert response.status_code == 200
+    assert isinstance(response.json()['app_name'], str)
+    assert isinstance(response.json()['author'], str)
